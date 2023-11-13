@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Tabs } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import db from "@react-native-firebase/database";
+import auth, { FirebaseAuthTypes, firebase } from "@react-native-firebase/auth";
+import db from "@react-native-firebase/firestore";
 
 const Page = () => {
   const [username, setUsername] = useState("");
@@ -20,9 +20,22 @@ const Page = () => {
     //login
     console.log("Log in:: ", login_username, login_password);
     if (login_username && login_password) {
+      var login = login_username;
+      // check if login is username and if so get email.
+      const snapshot = await todoRef.where("username", "==", login).get();
+      
+      if (!snapshot.empty) {
+        // get email from db
+        const doc = snapshot.docs[0];
+        const data = doc.data();
+        const email = data.email;
+        console.log("email: ", email);
+        login = email;
+      }
+      
       try {
         const response = await auth().signInWithEmailAndPassword(
-          login_username,
+          login,
           login_password
         );
         if (response.user) {
@@ -35,10 +48,23 @@ const Page = () => {
     }
     // TODO: if username is given, get email from db
   };
+  
+  
+  const todoRef = db().collection("users"); 
+  
   const SignUp = async () => {
     //signup
     console.log("Sign up:: ", username, email, password);
     if (email && password && username) {
+      
+      const snapshot = await todoRef.where("username", "==", username).get();
+      
+      // check if username is taken
+      if (!snapshot.empty) {
+        Alert.alert("username taken, pick a new one");
+        return;
+      }
+
       try {
         const response = await auth().createUserWithEmailAndPassword(
           email,
@@ -49,19 +75,28 @@ const Page = () => {
           // TODO: change page to main page
         }
       } catch (e) {
-        Alert.alert("error with account creation");
+        Alert.alert("Email invalid or already in use. Please try again.");
       }
     }
   };
 
-  const database =
-    "https://spray-6bde7-default-rtdb.europe-west1.firebasedatabase.app/";
   const CreateUserProfile = async (
     response: FirebaseAuthTypes.UserCredential
   ) => {
-    db().ref(`${database}/users/${response.user.uid}`).set({ username });
+    // create user profile
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp;
+    const data = {
+      username: username,
+      email: email,
+      createdAt: timestamp(),
+      updatedAt: timestamp(),
+    };
+    
+    await todoRef.add(data)
+    //todoRef.doc(response.user?.uid).set({
+
     // other db information
-    Alert.alert("account created");
+    Alert.alert("aaccount created");
   };
   // const SignUp = () => {
   //   console.log("Sign up:: ", username, email, password);
