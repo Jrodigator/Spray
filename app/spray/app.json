@@ -17,7 +17,8 @@
     ],
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bigrod.mysprayapp"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -47,6 +48,14 @@
     "experiments": {
       "typedRoutes": true,
       "tsconfigPaths": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "72f11aee-a174-43c7-ae1a-3f10969e9e5a"
+      }
     }
   }
 }

@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "178440354301",
+    "firebase_url": "https://spray-6bde7-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "spray-6bde7",
     "storage_bucket": "spray-6bde7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:178440354301:android:79f404ee183d935bfc0194",
+        "mobilesdk_app_id": "1:178440354301:android:3ae4f68ccec8d539fc0194",
         "android_client_info": {
-          "package_name": "com.bigrod.myspray"
+          "package_name": "com.bigrod.mysprayapp"
         }
       },
       "oauth_client": [],
