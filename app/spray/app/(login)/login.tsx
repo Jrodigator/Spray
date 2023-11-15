@@ -143,6 +143,8 @@ const Page = () => {
       />
       <Separator />
       <Button title="Sign Up" onPress={SignUp} />
+      <Separator />
+      <Button title="dev" onPress={() => navigator.replace("(tabs)")} />
     </View>
   );
 };
