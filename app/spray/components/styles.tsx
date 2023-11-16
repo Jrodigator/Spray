@@ -27,6 +27,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
+  searchBar: {
+  
+    height: 40,
+    width: "90%",
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
+  heartIcon: {
+    marginLeft: "auto",
+    paddingRight: 10,
+  },
   topbar: {
     textAlign: "center",
     paddingTop: 10,

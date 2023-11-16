@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { AntDesign } from "@expo/vector-icons";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
@@ -9,18 +10,55 @@ interface ItemContainerProps {
   imageSource: any; // replace 'any' with the appropriate type for your image source
   title: string;
   subtitle: string;
+  liked: boolean; // maybe get liked walls here
 }
 
 const ItemContainer: React.FC<ItemContainerProps> = ({
   imageSource,
   title,
   subtitle,
+  liked,
 }) => {
+  const [heartType, setHeartType] = useState<boolean>(liked); // maybe get liked walls here
 
   const handlePress = () => {
     console.log("Item Pressed");
     // wall click logic here.. maybe import a function from the parent component?
-  }
+  };
+
+  const heartClick = () => {
+    console.log("");
+    console.log("Heart Clicked");
+    setHeartType(!heartType);
+    console.log(liked);
+
+    // heart click logic here.. maybe import a function from the parent component?
+  };
+
+  const Heart = () => {
+    if (!heartType) {
+      return (
+        <AntDesign
+          onPress={heartClick}
+          style={styles.icon}
+          name="hearto"
+          size={24}
+          color="black"
+        />
+      );
+    } else {
+      return (
+        <AntDesign
+          onPress={heartClick}
+          style={styles.icon}
+          name="heart"
+          size={24}
+          color="red"
+        />
+      );
+    }
+    //refresh heart here
+  };
 
   return (
     <TouchableOpacity onPress={handlePress} activeOpacity={0.7}>
@@ -31,6 +69,7 @@ const ItemContainer: React.FC<ItemContainerProps> = ({
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subtitle}>{subtitle}</Text>
         </View>
+        <Heart />
       </View>
     </TouchableOpacity>
   );
@@ -54,6 +93,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84, // shadow radius
     elevation: 5, // for Android
   },
+  icon: {
+    marginLeft: "auto",
+    paddingRight: 10,
+  },
   image: {
     width: 50, // adjust as needed
     height: 50, // adjust as needed
@@ -71,10 +114,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "grey",
   },
-   separator: {
-    height: '80%', // adjust as needed
+  separator: {
+    height: "80%", // adjust as needed
     width: 1,
-    backgroundColor: 'black', // color of the separator
+    backgroundColor: "black", // color of the separator
     marginHorizontal: 10,
   },
 });
